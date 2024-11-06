@@ -7,6 +7,12 @@ functions:
 - name: printMessage
   type: custom
   operation: sysout
+- name: sendOrder
+  operation: specs/supplier.yaml#sendOrder
+  type: rest
+- name: cancelOrder
+  operation: specs/supplier.yaml#cancelOrder
+  type: rest
 start: Check Inventory
 states:
 - name: Check Inventory
@@ -40,9 +46,10 @@ states:
 - name: 'Forward to External Supplier'
   type: operation
   actions:
-  - name: printAction
+  - name: sendOrder
     functionRef:
-      refName: printMessage
+      refName: sendOrder
       arguments:
-        message: Forward to External Supplier
+        supplier-id: sup-01
+        content: '.orderId'
   end: true
