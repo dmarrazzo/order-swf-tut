@@ -5,44 +5,44 @@ name: Order Workflow
 description: Order Workflow Sample
 start: Check Inventory
 functions:
-  - name: printMessage
-    type: custom
-    operation: sysout
+- name: printMessage
+  type: custom
+  operation: sysout
 states:
-  - name: Check Inventory
-    type: operation
-    actions:
-      - name: printAction
-        functionRef:
-          refName: printMessage
-          arguments:
-            message: '"Check Inventory: " + .orderId'
-        actionDataFilter:
-          fromStateData: .
-          results: '{inventory: .item | test("0+") }'
-    transition: Item Available?
-  - name: Item Available?
-    type: switch
-    dataConditions:
-      - condition: '.inventory'
-        transition: Prepare for Shipping
-    defaultCondition:
-      transition: Forward to External Supplier
-  - name: 'Prepare for Shipping'
-    type: operation
-    actions:
-      - name: printAction
-        functionRef:
-          refName: printMessage
-          arguments:
-            message: Prepare for Shipping
-    end: true
-  - name: 'Forward to External Supplier'
-    type: operation
-    actions:
-      - name: printAction
-        functionRef:
-          refName: printMessage
-          arguments:
-            message: Forward to External Supplier
-    end: true
+- name: Check Inventory
+  type: operation
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: '"Check Inventory: " + .orderId'
+    actionDataFilter:
+      fromStateData: .
+      results: '{inventory: .item | test("0+") }'
+  transition: Item Available?
+- name: Item Available?
+  type: switch
+  dataConditions:
+  - condition: '.inventory'
+    transition: Prepare for Shipping
+  defaultCondition:
+    transition: Forward to External Supplier
+- name: 'Prepare for Shipping'
+  type: operation
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: Prepare for Shipping
+  end: true
+- name: 'Forward to External Supplier'
+  type: operation
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: Forward to External Supplier
+  end: true
