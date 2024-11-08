@@ -3,11 +3,11 @@ version: "1.0"
 specVersion: "0.8"
 name: Order Workflow
 description: Order Workflow Sample
-start: Check Inventory
 functions:
 - name: printMessage
   type: custom
   operation: sysout
+start: Check Inventory
 states:
 - name: Check Inventory
   type: operation
