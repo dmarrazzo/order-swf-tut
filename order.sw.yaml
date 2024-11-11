@@ -68,6 +68,16 @@ states:
       arguments:
         message: Prepare for Shipping
   transition: Order Shipped or Cancelled
+  compensatedBy: Restore Inventory
+- name: Restore Inventory
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: Restore Inventory
 - name: 'Forward to External Supplier'
   type: operation
   actions:
@@ -78,6 +88,17 @@ states:
         supplier-id: sup-01
         content: '.orderId'
   transition: Order Shipped or Cancelled
+  compensatedBy: Cancel Supplier Order
+- name: Cancel Supplier Order
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: cancelOrder
+    functionRef:
+      refName: cancelOrder
+      arguments:
+        supplier-id: sup-01
+        content: '.orderId'
 - name: Order Shipped or Cancelled
   type: event
   exclusive: true
