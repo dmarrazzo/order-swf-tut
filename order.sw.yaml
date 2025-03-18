@@ -4,6 +4,9 @@ specVersion: "0.8"
 name: Order Workflow
 description: Order Workflow Sample
 functions:
+- name: 'checkAvailability'
+  operation: 'specs/inventory.yaml#checkAvailability'
+  type: rest
 - name: printMessage
   type: custom
   operation: sysout
@@ -20,17 +23,17 @@ states:
   actions:
   - name: printAction
     functionRef:
-      refName: printMessage
+      refName: checkAvailability
       arguments:
-        message: '"Check Inventory: " + .orderId'
+        item-id: .item
     actionDataFilter:
-      fromStateData: .
-      results: '{inventory: .item | test("0+") }'
+      results: '.'
+      toStateData: .available
   transition: Item Available?
 - name: Item Available?
   type: switch
   dataConditions:
-  - condition: '.inventory'
+  - condition: '.available'
     transition: Prepare for Shipping
   defaultCondition:
     transition: Forward to External Supplier

@@ -1,0 +1,54 @@
+---
+openapi: 3.0.3
+info:
+  title: Inventory API
+  version: 1.0.0-SNAPSHOT
+paths:
+  /inventory/available/{item-id}:
+    get:
+      tags:
+      - Inventory
+      operationId: checkAvailability
+      parameters:
+      - name: item-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: boolean
+  /inventory/{item-id}:
+    get:
+      tags:
+      - Inventory
+      operationId: findById
+      parameters:
+      - name: item-id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        itemId:
+          type: string
+        name:
+          type: string
+        quantity:
+          format: int32
+          type: integer
